@@ -1,34 +1,41 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
+import Link from "next/link";
+import { useMovieContext } from "@/contexts/MovieContext";
 
 export default function Home() {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [allMovies, setAllMovies] = useState([]); // Store all results
-  const [movies, setMovies] = useState([]); // Store filtered results
-  const [loading, setLoading] = useState(false);
-  const [filterType, setFilterType] = useState("all"); // "everything", "all", "movie", "series"
+  const {
+    searchTerm,
+    setSearchTerm,
+    filterType,
+    setFilterType,
+    movies,
+    setMovies,
+    allMovies,
+    setAllMovies,
+    loading,
+    setLoading,
+  } = useMovieContext();
 
   const searchMovies = async () => {
     if (!searchTerm.trim()) return;
     
     setLoading(true);
     try {
-      // URL encode the search term to handle spaces and special characters
       const encodedSearch = encodeURIComponent(searchTerm.trim());
-      // Call our server-side API route instead of OMDB directly
       const response = await fetch(`/api/movies?q=${encodedSearch}`);
       const data = await response.json();
       
       if (data.Response === "True") {
         const allResults = data.Search || [];
-        setAllMovies(allResults); // Store all results
+        setAllMovies(allResults);
       } else {
         setAllMovies([]);
       }
     } catch (error) {
       console.error("Error fetching movies:", error);
-      setMovies([]);
+      setAllMovies([]);
     } finally {
       setLoading(false);
     }
@@ -36,22 +43,13 @@ export default function Home() {
 
   // Filter movies whenever filterType or allMovies changes
   useEffect(() => {
-    console.log("Filtering with type:", filterType);
-    console.log("All movies:", allMovies);
-    
     const filteredResults = allMovies.filter((item: any) => {
-      console.log("item", item);
-      console.log("filterType", filterType);
-      if (filterType === "all") return true; // Show everything
-      if (filterType ==="movies+series") return item.Type === "movie" || item.Type === "series"; // Only movies and series
-      return item.Type === filterType; // Specific type
+      if (filterType === "all") return true;
+      if (filterType === "movies+series") return item.Type === "movie" || item.Type === "series";
+      return item.Type === filterType;
     });
-    
-    console.log("filteredResults", filteredResults);
     setMovies(filteredResults);
-  }, [filterType, allMovies]);
-
-
+  }, [filterType, allMovies, setMovies]);
 
   return (
     <main>
@@ -66,7 +64,6 @@ export default function Home() {
           onKeyDown={(e) => {
             if (e.key === 'Enter') {
               e.preventDefault();
-              console.log("Enter key pressed");
               searchMovies();
             }
           }}
@@ -92,7 +89,11 @@ export default function Home() {
         <div>
           {movies.map((movie: any) => (
             <div key={movie.imdbID}>
-              <h3>{movie.Title}</h3>
+              <h3>
+                <Link href={`/movie/${movie.imdbID}`}>
+                  {movie.Title}
+                </Link>
+              </h3>
               <p>{movie.Year}</p>
               <p>{movie.Type}</p>
             </div>
