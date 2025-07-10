@@ -1,11 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function Home() {
   const [searchTerm, setSearchTerm] = useState("");
-  const [movies, setMovies] = useState([]);
+  const [allMovies, setAllMovies] = useState([]); // Store all results
+  const [movies, setMovies] = useState([]); // Store filtered results
   const [loading, setLoading] = useState(false);
+  const [filterType, setFilterType] = useState("all"); // "everything", "all", "movie", "series"
 
   const searchMovies = async () => {
     if (!searchTerm.trim()) return;
@@ -19,9 +21,10 @@ export default function Home() {
       const data = await response.json();
       
       if (data.Response === "True") {
-        setMovies(data.Search || []);
+        const allResults = data.Search || [];
+        setAllMovies(allResults); // Store all results
       } else {
-        setMovies([]);
+        setAllMovies([]);
       }
     } catch (error) {
       console.error("Error fetching movies:", error);
@@ -30,6 +33,23 @@ export default function Home() {
       setLoading(false);
     }
   };
+
+  // Filter movies whenever filterType or allMovies changes
+  useEffect(() => {
+    console.log("Filtering with type:", filterType);
+    console.log("All movies:", allMovies);
+    
+    const filteredResults = allMovies.filter((item: any) => {
+      console.log("item", item);
+      console.log("filterType", filterType);
+      if (filterType === "all") return true; // Show everything
+      if (filterType ==="movies+series") return item.Type === "movie" || item.Type === "series"; // Only movies and series
+      return item.Type === filterType; // Specific type
+    });
+    
+    console.log("filteredResults", filteredResults);
+    setMovies(filteredResults);
+  }, [filterType, allMovies]);
 
 
 
@@ -51,11 +71,18 @@ export default function Home() {
             }
           }}
         />
-        <button type="button" onClick={
-          () => {
-            console.log("Button clicked");
-            searchMovies();
-          }}
+        <select
+          value={filterType}
+          onChange={(e) => setFilterType(e.target.value)}
+        >
+          <option value="all">All</option>
+          <option value="movies+series">Movies + Series</option>
+          <option value="movie">Movies only</option>
+          <option value="series">Series only</option>
+        </select>
+        <button 
+          type="button"
+          onClick={searchMovies}
           disabled={loading}>
           {loading ? "Searching..." : "Search"}
         </button>
