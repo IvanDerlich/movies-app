@@ -10,12 +10,20 @@ export async function GET(request: NextRequest) {
 
   try {
     const encodedSearch = encodeURIComponent(query.trim());
-    const response = await fetch(
-      `https://www.omdbapi.com/?apikey=${process.env.OMDB_API_KEY}&s=${encodedSearch}`
+    const responseFromOMDB = await fetch(
+      `https://www.omdbapi.com/?apikey=${process.env.OMDB_API_KEY}&s=${encodedSearch}`, {
+        // Cache the response for 1 hour in the next.js server
+        next: {
+          revalidate: 3600
+        }
+      }
     );
     
-    const data = await response.json();
-    return NextResponse.json(data);
+    const data = await responseFromOMDB.json();
+    // Tell the client's browser to cache the response for 1 hour
+    const responseToClient = NextResponse.json(data);
+    responseToClient.headers.set('Cache-Control', 'public, s-maxage=3600, stale-while-revalidate=86400');
+    return responseToClient;
   } catch (error) {
     console.error('Error fetching movies:', error);
     return NextResponse.json({ error: 'Failed to fetch movies' }, { status: 500 });

@@ -31,26 +31,35 @@ export default function Home() {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    searchMovies();
-  };
+
 
   return (
     <main>
       <h1>Movie Browser</h1>
       
-      <form onSubmit={handleSubmit}>
+      <div>
         <input
           type="text"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           placeholder="Search for movies..."
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              e.preventDefault();
+              console.log("Enter key pressed");
+              searchMovies();
+            }
+          }}
         />
-        <button type="submit" disabled={loading}>
+        <button type="button" onClick={
+          () => {
+            console.log("Button clicked");
+            searchMovies();
+          }}
+          disabled={loading}>
           {loading ? "Searching..." : "Search"}
         </button>
-      </form>
+      </div>
 
       {movies.length > 0 && (
         <div>
