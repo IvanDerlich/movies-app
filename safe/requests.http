@@ -1,0 +1,12 @@
+# get a random movie from the omdb API
+
+GET https://www.omdbapi.com/?i=tt3896198&apikey=74a26d2c
+
+
+### Get info of the batman movie from the omdb API
+GET http://www.omdbapi.com/?apikey=74a26d2c&t=batman
+
+### Get an image of the batman movie from the omdb API
+
+http://img.omdbapi.com/?i=tt3896198&apikey=74a26d2c&t=batman
+
