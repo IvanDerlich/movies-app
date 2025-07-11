@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useMovieContext } from "@/contexts/MovieContext";
 
@@ -18,24 +18,34 @@ export default function Home() {
     setLoading,
   } = useMovieContext();
 
+  const [error, setError] = useState<string | null>(null);
+  const [searched, setSearched] = useState(false);
+
   const searchMovies = async () => {
     if (!searchTerm.trim()) return;
-    
     setLoading(true);
+    setError(null);
+    setSearched(true);
     try {
       const encodedSearch = encodeURIComponent(searchTerm.trim());
       const response = await fetch(`/api/movies?q=${encodedSearch}`);
       const data = await response.json();
-      
+      if (!response.ok) {
+        setError(data.error || "Server error. Please try again later.");
+        setAllMovies([]);
+        setLoading(false);
+        return;
+      }
       if (data.Response === "True") {
-        const allResults = data.Search || [];
-        setAllMovies(allResults);
+        setAllMovies(data.Search || []);
       } else {
         setAllMovies([]);
+        setError(data.Error || data.error || "No movies found.");
       }
     } catch (error) {
       console.error("Error fetching movies:", error);
       setAllMovies([]);
+      setError("An error occurred while fetching movies. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -54,7 +64,6 @@ export default function Home() {
   return (
     <main>
       <h1>Movie Browser</h1>
-      
       <div>
         <input
           type="text"
@@ -84,6 +93,14 @@ export default function Home() {
           {loading ? "Searching..." : "Search"}
         </button>
       </div>
+
+      {error && (
+        <div style={{ color: 'red', marginTop: 16 }}>{error}</div>
+      )}
+
+      {searched && !loading && !error && movies.length === 0 && (
+        <div style={{ marginTop: 16 }}>No movies found.</div>
+      )}
 
       {movies.length > 0 && (
         <div>
