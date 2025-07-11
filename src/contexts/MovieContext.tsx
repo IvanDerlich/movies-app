@@ -2,11 +2,19 @@
 
 import { createContext, useContext, useState, ReactNode } from 'react';
 
-interface Movie {
+export interface MovieBasic {
   imdbID: string;
   Title: string;
   Year: string;
   Type: string;
+}
+
+export interface MovieDetailed extends MovieBasic {
+  Plot?: string;
+  Genre?: string;
+  Director?: string;
+  Actors?: string;
+  Poster?: string;
 }
 
 interface MovieContextType {
@@ -14,10 +22,10 @@ interface MovieContextType {
   setSearchTerm: (term: string) => void;
   filterType: string;
   setFilterType: (type: string) => void;
-  movies: Movie[];
-  setMovies: (movies: Movie[]) => void;
-  allMovies: Movie[];
-  setAllMovies: (movies: Movie[]) => void;
+  movies: MovieBasic[];
+  setMovies: (movies: MovieBasic[]) => void;
+  allMovies: MovieBasic[];
+  setAllMovies: (movies: MovieBasic[]) => void;
   loading: boolean;
   setLoading: (loading: boolean) => void;
 }
@@ -27,8 +35,8 @@ const MovieContext = createContext<MovieContextType | undefined>(undefined);
 export function MovieProvider({ children }: { children: ReactNode }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [filterType, setFilterType] = useState("all");
-  const [movies, setMovies] = useState<Movie[]>([]);
-  const [allMovies, setAllMovies] = useState<Movie[]>([]);
+  const [movies, setMovies] = useState<MovieBasic[]>([]);
+  const [allMovies, setAllMovies] = useState<MovieBasic[]>([]);
   const [loading, setLoading] = useState(false);
 
   return (
