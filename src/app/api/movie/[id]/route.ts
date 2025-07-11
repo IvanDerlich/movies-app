@@ -14,14 +14,16 @@ export async function GET(
     const response = await fetch(
       `https://www.omdbapi.com/?apikey=${process.env.OMDB_API_KEY}&i=${imdbId}`,
       {
+        // Cache for 1 hour in the next.js server
         next: {
-          revalidate: 3600 // Cache for 1 hour
+          revalidate: 3600
         }
       }
     );
     
     const data = await response.json();
     const res = NextResponse.json(data);
+    // Cache for 1 hour in the client's browser
     res.headers.set('Cache-Control', 'public, s-maxage=3600, stale-while-revalidate=86400');
     return res;
   } catch (error) {

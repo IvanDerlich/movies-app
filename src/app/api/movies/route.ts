@@ -20,7 +20,10 @@ export async function GET(request: NextRequest) {
     );
     
     const data = await responseFromOMDB.json();
-    return NextResponse.json(data);
+    const res = NextResponse.json(data);
+    // Cache for 1 hour in the client's browser
+    res.headers.set('Cache-Control', 'public, s-maxage=3600, stale-while-revalidate=86400');
+    return res;
   } catch (error) {
     console.error('Error fetching movies:', error);
     return NextResponse.json({ error: 'Failed to fetch movies' }, { status: 500 });
