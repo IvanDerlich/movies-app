@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { MovieProvider } from "@/contexts/MovieContext";
+import { MovieProvider } from "@/app/contexts/MovieContext";
 
 export const metadata: Metadata = {
   title: "Movie Browser",

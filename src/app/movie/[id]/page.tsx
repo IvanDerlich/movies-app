@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { MovieDetailed } from "@/contexts/MovieContext";
+import { MovieDetailed } from "@/app/contexts/MovieContext";
 import { 
   Container, 
   Typography, 

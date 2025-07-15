@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { useMovieContext } from "@/contexts/MovieContext";
+import { useMovieContext } from "@/app/contexts/MovieContext";
 import { 
   Container, 
   TextField, 
@@ -20,7 +20,7 @@ import {
   Chip
 } from "@mui/material";
 import SearchIcon from '@mui/icons-material/Search';
-import type { MovieBasic } from "../contexts/MovieContext";
+import type { MovieBasic } from "./contexts/MovieContext";
 
 export default function Home() {
   const {
