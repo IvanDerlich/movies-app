@@ -1,6 +1,6 @@
 # Movie Browser App
 
-This is a [Next.js](https://nextjs.org) project that lets you search and browse movies using the OMDB API. It demonstrates modern React patterns, server-side API integration, caching, and clean UI/UX.
+This is a modern movie browsing app built with Next.js and Material UI. It allows you to search for movies and series using the OMDB API, view details, and enjoy a fast, responsive, and beautiful UI.
 
 ## Getting Started
 
@@ -27,14 +27,21 @@ To run this project on your local machine:
      ```
    - You can get a free OMDB API key at [http://www.omdbapi.com/apikey.aspx](http://www.omdbapi.com/apikey.aspx)
 
-4. **Run the development server:**
+4. **Install MUI icons (required for icons):**
+   ```bash
+   npm install @mui/icons-material
+   # or
+   yarn add @mui/icons-material
+   ```
+
+5. **Run the development server:**
    ```bash
    npm run dev
    # or
    yarn dev
    ```
 
-5. **Open the app:**
+6. **Open the app:**
    - Go to [http://localhost:3000](http://localhost:3000) in your browser.
 
 ---
@@ -54,11 +61,15 @@ To run this project on your local machine:
 
 ---
 
-## Tech Stack
-- Next.js 15 (App Router)
-- React Context for state management
-- OMDB API integration
-- Modern caching strategies
+## Technologies Used
+
+- **Next.js 15 (App Router):** Modern React framework for server-side rendering, API routes, and routing.
+- **React 18:** For building interactive UIs.
+- **Material UI (MUI):** For beautiful, responsive, and accessible UI components.
+- **@mui/icons-material:** For Material Design icons.
+- **OMDB API:** For movie and series data.
+- **React Context:** For global state management.
+- **Modern Caching:** HTTP and server-side caching for performance.
 
 ---
 

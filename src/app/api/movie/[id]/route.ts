@@ -2,9 +2,10 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: { id: string } }
 ) {
-  const imdbId = params.id;
+  const { params } = context;
+  const { id: imdbId } = await params;
 
   if (!imdbId) {
     return NextResponse.json({ error: 'IMDb ID is required' }, { status: 400 });
@@ -14,9 +15,8 @@ export async function GET(
     const response = await fetch(
       `https://www.omdbapi.com/?apikey=${process.env.OMDB_API_KEY}&i=${imdbId}`,
       {
-        // Cache for 1 hour in the next.js server
         next: {
-          revalidate: 3600
+          revalidate: 3600 // Cache for 1 hour
         }
       }
     );

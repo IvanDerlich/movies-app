@@ -16,7 +16,6 @@ import {
   Divider
 } from "@mui/material";
 
-
 export default function MovieDetails() {
   const params = useParams();
   const id = params.id as string;
@@ -81,9 +80,16 @@ export default function MovieDetails() {
           <Typography variant="h4" component="h1" gutterBottom>
             {movie.Title}
           </Typography>
-          
+          {movie.Poster && movie.Poster !== "N/A" && (
+            <Box sx={{ display: 'flex', justifyContent: 'center', my: 3 }}>
+              <img
+                src={`/api/movie/${id}/poster`}
+                alt={`Poster for ${movie.Title}`}
+                style={{ maxWidth: '100%', maxHeight: 400, borderRadius: 8 }}
+              />
+            </Box>
+          )}
           <Divider sx={{ my: 2 }} />
-          
           <Box sx={{ display: 'grid', gap: 2 }}>
             {movie.Plot && (
               <Box>
@@ -95,7 +101,6 @@ export default function MovieDetails() {
                 </Typography>
               </Box>
             )}
-            
             {movie.Genre && (
               <Box>
                 <Typography variant="h6" gutterBottom>
@@ -106,7 +111,6 @@ export default function MovieDetails() {
                 </Typography>
               </Box>
             )}
-            
             {movie.Director && (
               <Box>
                 <Typography variant="h6" gutterBottom>
@@ -117,7 +121,6 @@ export default function MovieDetails() {
                 </Typography>
               </Box>
             )}
-            
             {movie.Actors && (
               <Box>
                 <Typography variant="h6" gutterBottom>
