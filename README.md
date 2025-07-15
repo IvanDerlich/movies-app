@@ -14,8 +14,8 @@ To run this project on your local machine:
 
 1. **Clone the repository:**
    ```bash
-   git clone <your-repo-url>
-   cd <your-repo-directory>
+   git clone https://github.com/IvanDerlich/movies-app
+   cd https://github.com/IvanDerlich/movies-app
    ```
 
 2. **Install dependencies:**
