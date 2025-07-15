@@ -61,6 +61,19 @@ To run this project on your local machine:
 
 ---
 
+## Perceiving the Benefits of Caching
+
+You can experience the app's caching in action by observing the loading times of movie poster images:
+
+- **Try this:**
+  1. Search for a movie and open its details page. Pay attention to how long the poster image takes to load the first time.
+  2. Refresh the page or revisit the same movie details page in the same browser tab. The image should load much faster, as it is served from the browser cache.
+  3. For comparison, open the same movie details page in a different browser (e.g., if you used Chrome, try Firefox or Edge). Even though the browser cache is not shared, you may notice the image loads faster than the very first time—this is because the server-side cache is now being used.
+
+If you pay attention to the loading times, you'll notice the benefit of both browser and server-side caching: repeated requests from the same browser are fastest, but even requests from a different browser can be faster after the first load, thanks to server-level caching.
+
+---
+
 ## Technologies Used
 
 - **Next.js 15 (App Router):** Modern React framework for server-side rendering, API routes, and routing.

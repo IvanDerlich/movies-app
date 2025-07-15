@@ -14,13 +14,13 @@ import {
   Typography, 
   Box, 
   Card, 
-  CardContent, 
-  Grid, 
+  CardContent,
   Alert,
   Stack,
   Chip
 } from "@mui/material";
 import SearchIcon from '@mui/icons-material/Search';
+import type { MovieBasic } from "../contexts/MovieContext";
 
 export default function Home() {
   const {
@@ -71,7 +71,7 @@ export default function Home() {
 
   // Filter movies whenever filterType or allMovies changes
   useEffect(() => {
-    const filteredResults = allMovies.filter((item: any) => {
+    const filteredResults = allMovies.filter((item: MovieBasic) => {
       if (filterType === "all") return true;
       if (filterType === "movies+series") return item.Type === "movie" || item.Type === "series";
       return item.Type === filterType;
@@ -140,7 +140,7 @@ export default function Home() {
 
       {movies.length > 0 && (
         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 3, justifyContent: 'center' }}>
-          {movies.map((movie: any) => (
+          {movies.map((movie: MovieBasic) => (
             <Box key={movie.imdbID} sx={{ width: { xs: '100%', sm: '48%', md: '31%', lg: '23%' }, mb: 3 }}>
               <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
                 <CardContent sx={{ flexGrow: 1 }}>

@@ -1,19 +1,20 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+
+
 export async function GET(
   request: NextRequest,
-  context: { params: { id: string } }
+  { params} : {params: Promise<{ id: string }>}
 ) {
-  const { params } = context;
-  const { id: imdbId } = await params;
+  const { id } = await params;
 
-  if (!imdbId) {
+  if (!id) {
     return NextResponse.json({ error: 'IMDb ID is required' }, { status: 400 });
   }
 
   try {
     // Fetch the image directly from OMDB's image endpoint
-    const imageUrl = `https://img.omdbapi.com/?i=${imdbId}&apikey=${process.env.OMDB_API_KEY}`;
+    const imageUrl = `https://img.omdbapi.com/?i=${id}&apikey=${process.env.OMDB_API_KEY}`;
     const imageResponse = await fetch(imageUrl, {
       next: {
         revalidate: 3600 // Cache for 1 hour on the server

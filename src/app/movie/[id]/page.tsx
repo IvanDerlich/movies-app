@@ -15,6 +15,7 @@ import {
   CircularProgress,
   Divider
 } from "@mui/material";
+import Image from "next/image";
 
 export default function MovieDetails() {
   const params = useParams();
@@ -27,8 +28,12 @@ export default function MovieDetails() {
       try {
         const response = await fetch(`/api/movie/${id}`);
         const data = await response.json();
-        setMovie(data);
-      } catch (error) {
+        if (data.Response === "False") {
+          setMovie(null);
+        } else {
+          setMovie(data);
+        }
+      } catch {
         setMovie(null);
       } finally {
         setLoading(false);
@@ -47,11 +52,11 @@ export default function MovieDetails() {
     );
   }
 
-  if (!movie || (movie as any).Response === "False") {
+  if (!movie) {
     return (
       <Container maxWidth="md" sx={{ py: 4 }}>
         <Alert severity="error" sx={{ mb: 3 }}>
-          Sorry, we couldn't find the movie with ID: {id}
+          Sorry, we couldn&rsquo;t find the movie with ID: {id}
         </Alert>
         <Button 
           component={Link} 
@@ -82,10 +87,13 @@ export default function MovieDetails() {
           </Typography>
           {movie.Poster && movie.Poster !== "N/A" && (
             <Box sx={{ display: 'flex', justifyContent: 'center', my: 3 }}>
-              <img
+              <Image
                 src={`/api/movie/${id}/poster`}
                 alt={`Poster for ${movie.Title}`}
-                style={{ maxWidth: '100%', maxHeight: 400, borderRadius: 8 }}
+                width={300}
+                height={450}
+                style={{ maxWidth: '100%', height: 'auto', borderRadius: 8 }}
+                priority
               />
             </Box>
           )}
