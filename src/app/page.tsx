@@ -3,6 +3,24 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useMovieContext } from "@/contexts/MovieContext";
+import { 
+  Container, 
+  TextField, 
+  Button, 
+  FormControl, 
+  InputLabel, 
+  Select, 
+  MenuItem, 
+  Typography, 
+  Box, 
+  Card, 
+  CardContent, 
+  Grid, 
+  Alert,
+  Stack,
+  Chip
+} from "@mui/material";
+import SearchIcon from '@mui/icons-material/Search';
 
 export default function Home() {
   const {
@@ -62,61 +80,90 @@ export default function Home() {
   }, [filterType, allMovies, setMovies]);
 
   return (
-    <main>
-      <h1>Movie Browser</h1>
-      <div>
-        <input
-          type="text"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          placeholder="Search for movies..."
-          onKeyDown={(e) => {
-            if (e.key === 'Enter') {
-              e.preventDefault();
-              searchMovies();
-            }
-          }}
-        />
-        <select
-          value={filterType}
-          onChange={(e) => setFilterType(e.target.value)}
-        >
-          <option value="all">All</option>
-          <option value="movies+series">Movies + Series</option>
-          <option value="movie">Movies only</option>
-          <option value="series">Series only</option>
-        </select>
-        <button 
-          type="button"
-          onClick={searchMovies}
-          disabled={loading}>
-          {loading ? "Searching..." : "Search"}
-        </button>
-      </div>
+    <Container maxWidth="lg" sx={{ py: 4 }}>
+      <Typography variant="h3" component="h1" gutterBottom align="center" sx={{ mb: 4 }}>
+        Movie Browser
+      </Typography>
+      
+      <Box sx={{ mb: 4 }}>
+        <Stack direction="row" spacing={2} sx={{ mb: 2 }}>
+          <TextField
+            fullWidth
+            label="Search for movies..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                e.preventDefault();
+                searchMovies();
+              }
+            }}
+            disabled={loading}
+          />
+          <FormControl sx={{ minWidth: 200 }}>
+            <InputLabel>Filter</InputLabel>
+            <Select
+              value={filterType}
+              label="Filter"
+              onChange={(e) => setFilterType(e.target.value)}
+              disabled={loading}
+            >
+              <MenuItem value="all">All</MenuItem>
+              <MenuItem value="movies+series">Movies + Series</MenuItem>
+              <MenuItem value="movie">Movies only</MenuItem>
+              <MenuItem value="series">Series only</MenuItem>
+            </Select>
+          </FormControl>
+          <Button 
+            variant="contained" 
+            onClick={searchMovies}
+            disabled={loading}
+            startIcon={<SearchIcon />}
+            sx={{ minWidth: 120 }}
+          >
+            {loading ? "Searching..." : "Search"}
+          </Button>
+        </Stack>
+      </Box>
 
       {error && (
-        <div style={{ color: 'red', marginTop: 16 }}>{error}</div>
+        <Alert severity="error" sx={{ mb: 3 }}>
+          {error}
+        </Alert>
       )}
 
       {searched && !loading && !error && movies.length === 0 && (
-        <div style={{ marginTop: 16 }}>No movies found.</div>
+        <Alert severity="info" sx={{ mb: 3 }}>
+          No movies found.
+        </Alert>
       )}
 
       {movies.length > 0 && (
-        <div>
+        <Grid container spacing={3}>
           {movies.map((movie: any) => (
-            <div key={movie.imdbID}>
-              <h3>
-                <Link href={`/movie/${movie.imdbID}`}>
-                  {movie.Title}
-                </Link>
-              </h3>
-              <p>{movie.Year}</p>
-              <p>{movie.Type}</p>
-            </div>
+            <Grid item xs={12} sm={6} md={4} lg={3} key={movie.imdbID}>
+              <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+                <CardContent sx={{ flexGrow: 1 }}>
+                  <Typography variant="h6" component="h2" gutterBottom>
+                    <Link href={`/movie/${movie.imdbID}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                      {movie.Title}
+                    </Link>
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary" gutterBottom>
+                    {movie.Year}
+                  </Typography>
+                  <Chip 
+                    label={movie.Type} 
+                    size="small" 
+                    color={movie.Type === 'movie' ? 'primary' : 'secondary'}
+                    sx={{ mt: 1 }}
+                  />
+                </CardContent>
+              </Card>
+            </Grid>
           ))}
-        </div>
+        </Grid>
       )}
-    </main>
+    </Container>
   );
 }

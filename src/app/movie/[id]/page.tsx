@@ -4,6 +4,18 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { MovieDetailed } from "@/contexts/MovieContext";
+import { 
+  Container, 
+  Typography, 
+  Box, 
+  Card, 
+  CardContent, 
+  Button, 
+  Alert,
+  CircularProgress,
+  Divider
+} from "@mui/material";
+
 
 export default function MovieDetails() {
   const params = useParams();
@@ -28,33 +40,97 @@ export default function MovieDetails() {
 
   if (loading) {
     return (
-      <main>
-        <h1>Loading...</h1>
-        <Link href="/">← Back to Search</Link>
-      </main>
+      <Container maxWidth="md" sx={{ py: 4 }}>
+        <Box display="flex" justifyContent="center" alignItems="center" minHeight="400px">
+          <CircularProgress />
+        </Box>
+      </Container>
     );
   }
 
   if (!movie || (movie as any).Response === "False") {
     return (
-      <main>
-        <h1>Movie Not Found</h1>
-        <p>Sorry, we couldn't find the movie with ID: {id}</p>
-        <Link href="/">← Back to Search</Link>
-      </main>
+      <Container maxWidth="md" sx={{ py: 4 }}>
+        <Alert severity="error" sx={{ mb: 3 }}>
+          Sorry, we couldn't find the movie with ID: {id}
+        </Alert>
+        <Button 
+          component={Link} 
+          href="/" 
+          variant="outlined"
+        >
+          ← Back to Search
+        </Button>
+      </Container>
     );
   }
 
   return (
-    <main>
-      <h1>{movie.Title}</h1>
-      <div>
-        <p><strong>Plot:</strong> {movie.Plot}</p>
-        <p><strong>Genre:</strong> {movie.Genre}</p>
-        <p><strong>Director:</strong> {movie.Director}</p>
-        <p><strong>Actors:</strong> {movie.Actors}</p>
-      </div>
-      <Link href="/">← Back to Search</Link>
-    </main>
+    <Container maxWidth="md" sx={{ py: 4 }}>
+      <Button 
+        component={Link} 
+        href="/" 
+        variant="outlined"
+        sx={{ mb: 3 }}
+      >
+        ← Back to Search
+      </Button>
+
+      <Card sx={{ mb: 3 }}>
+        <CardContent>
+          <Typography variant="h4" component="h1" gutterBottom>
+            {movie.Title}
+          </Typography>
+          
+          <Divider sx={{ my: 2 }} />
+          
+          <Box sx={{ display: 'grid', gap: 2 }}>
+            {movie.Plot && (
+              <Box>
+                <Typography variant="h6" gutterBottom>
+                  Plot
+                </Typography>
+                <Typography variant="body1" color="text.secondary">
+                  {movie.Plot}
+                </Typography>
+              </Box>
+            )}
+            
+            {movie.Genre && (
+              <Box>
+                <Typography variant="h6" gutterBottom>
+                  Genre
+                </Typography>
+                <Typography variant="body1" color="text.secondary">
+                  {movie.Genre}
+                </Typography>
+              </Box>
+            )}
+            
+            {movie.Director && (
+              <Box>
+                <Typography variant="h6" gutterBottom>
+                  Director
+                </Typography>
+                <Typography variant="body1" color="text.secondary">
+                  {movie.Director}
+                </Typography>
+              </Box>
+            )}
+            
+            {movie.Actors && (
+              <Box>
+                <Typography variant="h6" gutterBottom>
+                  Actors
+                </Typography>
+                <Typography variant="body1" color="text.secondary">
+                  {movie.Actors}
+                </Typography>
+              </Box>
+            )}
+          </Box>
+        </CardContent>
+      </Card>
+    </Container>
   );
 } 

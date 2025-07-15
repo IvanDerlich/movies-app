@@ -1,36 +1,66 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Movie Browser App
+
+This is a [Next.js](https://nextjs.org) project that lets you search and browse movies using the OMDB API. It demonstrates modern React patterns, server-side API integration, caching, and clean UI/UX.
 
 ## Getting Started
 
-First, run the development server:
+To run this project on your local machine:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+1. **Clone the repository:**
+   ```bash
+   git clone <your-repo-url>
+   cd <your-repo-directory>
+   ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. **Install dependencies:**
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. **Set up environment variables:**
+   - Create a file called `.env.local` in the root of the project.
+   - Add your OMDB API key:
+     ```env
+     OMDB_API_KEY=your_omdb_api_key_here
+     ```
+   - You can get a free OMDB API key at [http://www.omdbapi.com/apikey.aspx](http://www.omdbapi.com/apikey.aspx)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+4. **Run the development server:**
+   ```bash
+   npm run dev
+   # or
+   yarn dev
+   ```
 
-## Learn More
+5. **Open the app:**
+   - Go to [http://localhost:3000](http://localhost:3000) in your browser.
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## How It Works
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **Search:** Enter a movie title and click "Search". The app fetches results from the OMDB API via a secure Next.js API route.
+- **Filtering:** Use the dropdown to filter results by Movies, Series, or both.
+- **Details:** Click a movie title to see detailed information. The details page fetches full info from OMDB using a secure backend route.
+- **Caching:**
+  - The backend caches OMDB responses for 1 hour to reduce API calls and improve speed.
+  - The browser and any CDN will also cache responses for 1 hour, serving stale data while revalidating in the background for up to 24 hours.
+- **Error Handling:**
+  - User-friendly messages are shown for network errors, OMDB errors, or empty results.
+- **Security:**
+  - The OMDB API key is never exposed to the client; all requests go through the Next.js backend.
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Tech Stack
+- Next.js 15 (App Router)
+- React Context for state management
+- OMDB API integration
+- Modern caching strategies
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## License
+MIT
