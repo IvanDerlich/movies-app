@@ -12,28 +12,18 @@ export async function GET(
   }
 
   try {
-    // First, get the poster URL from OMDB
-    const omdbResponse = await fetch(
-      `https://www.omdbapi.com/?apikey=${process.env.OMDB_API_KEY}&i=${imdbId}`,
-      {
-        next: {
-          revalidate: 3600 // Cache for 1 hour on the server
-        }
-      }
-    );
-    const data = await omdbResponse.json();
-    const posterUrl = data.Poster;
-
-    if (!posterUrl || posterUrl === 'N/A') {
-      return NextResponse.json({ error: 'Poster not available' }, { status: 404 });
-    }
-
-    // Fetch the image itself
-    const imageResponse = await fetch(posterUrl, {
+    // Fetch the image directly from OMDB's image endpoint
+    const imageUrl = `https://img.omdbapi.com/?i=${imdbId}&apikey=${process.env.OMDB_API_KEY}`;
+    const imageResponse = await fetch(imageUrl, {
       next: {
         revalidate: 3600 // Cache for 1 hour on the server
       }
     });
+
+    if (!imageResponse.ok) {
+      return NextResponse.json({ error: 'Poster not available' }, { status: 404 });
+    }
+
     const imageBuffer = await imageResponse.arrayBuffer();
     const res = new NextResponse(imageBuffer, {
       status: 200,
