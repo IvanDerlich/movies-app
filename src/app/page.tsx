@@ -139,9 +139,9 @@ export default function Home() {
       )}
 
       {movies.length > 0 && (
-        <Grid container spacing={3}>
+        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 3, justifyContent: 'center' }}>
           {movies.map((movie: any) => (
-            <Grid item xs={12} sm={6} md={4} lg={3} key={movie.imdbID}>
+            <Box key={movie.imdbID} sx={{ width: { xs: '100%', sm: '48%', md: '31%', lg: '23%' }, mb: 3 }}>
               <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
                 <CardContent sx={{ flexGrow: 1 }}>
                   <Typography variant="h6" component="h2" gutterBottom>
@@ -160,9 +160,9 @@ export default function Home() {
                   />
                 </CardContent>
               </Card>
-            </Grid>
+            </Box>
           ))}
-        </Grid>
+        </Box>
       )}
     </Container>
   );
