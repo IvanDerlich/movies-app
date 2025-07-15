@@ -2,6 +2,12 @@
 
 This is a modern movie browsing app built with Next.js and Material UI. It allows you to search for movies and series using the OMDB API, view details, and enjoy a fast, responsive, and beautiful UI.
 
+**Note:** Sometimes images may not load properly due to issues with the OMDB server.
+
+## Live Demo
+
+[Try the app live](https://movies-app-five-kohl.vercel.app/)
+
 ## Getting Started
 
 To run this project on your local machine:
