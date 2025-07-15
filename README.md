@@ -2,7 +2,7 @@
 
 This is a modern movie browsing app built with Next.js and Material UI. It allows you to search for movies and series using the OMDB API, view details, and enjoy a fast, responsive, and beautiful UI.
 
-**Note:** Sometimes images may not load properly due to issues with the OMDB server.
+**Note:** Sometimes images may not load properly because image transfers consume a lot of resources, and the OMDB server occasionally limits image delivery to reduce costs—especially if you are using a free API service.
 
 ## Live Demo
 
