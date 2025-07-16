@@ -8,6 +8,17 @@ This is a modern movie browsing app built with Next.js and Material UI. It allow
 
 [Try the app live](https://movies-app-five-kohl.vercel.app/)
 
+## App Screenshots
+
+<div align="center">
+  <img src="docs/1.png" alt="Home page with search functionality" width="300" />
+  <img src="docs/2.png" alt="Search results with movie cards" width="300" />
+  <img src="docs/3.png" alt="Movie details page" width="300" />
+  <img src="docs/4.png" alt="Series search results" width="300" />
+  <img src="docs/5.png" alt="Filtered results view" width="300" />
+  <img src="docs/6.png" alt="Responsive mobile view" width="300" />
+</div>
+
 ## Getting Started
 
 To run this project on your local machine:
